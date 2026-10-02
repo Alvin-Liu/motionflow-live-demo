@@ -38,7 +38,7 @@ button{cursor:pointer}
 .rail-line{width:30px;height:1px;background:var(--line);margin:4px 0}
 .rail-bottom{margin-top:auto}
 .main{grid-row:2;grid-column:2;min-width:0;min-height:0;position:relative;overflow:hidden}
-.library-view,.scene-view{height:100%;overflow:auto;padding:20px 22px 128px}
+.library-view,.scene-view{height:100%;overflow:auto;padding:20px 22px 190px}
 .scene-view{display:none}
 .workspace-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
 .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
@@ -180,7 +180,7 @@ h1{font-size:24px;line-height:1.15;margin:4px 0 0;font-weight:620;letter-spacing
 @media(max-width:620px){
   .topbar{padding:0 8px;gap:6px}.logo{min-width:unset}.project-chip{display:none}.top-btn.help{display:none}.top-btn{padding:0 8px}
   .app{grid-template-columns:1fr}.rail{display:none}.main{grid-column:1}.detail{left:0}
-  .library-view,.scene-view{padding:16px 12px 130px}
+  .library-view,.scene-view{padding:16px 12px 190px}
   .asset-grid{grid-template-columns:1fr 1fr;gap:7px}.asset-card.wide{grid-column:span 2}
   .workspace-head{align-items:flex-start}.view-controls .pill:nth-child(n+3){display:none}
   .composer-wrap{bottom:10px;width:calc(100% - 18px)}.model-select{display:none}
@@ -352,7 +352,7 @@ const T={
  zh:{
   help:'? 怎么用',agent:'✦ Agent',search:'搜索素材',eyebrow:'项目工作区',allAssets:'全部素材',all:'全部',images:'图片',videos:'视频',recent:'最近 ⌄',
   cAll:'全部素材',promptPh:'描述你想创建的内容。输入 @ 可以引用素材…',gen:'生成',image:'图片',video:'视频',
-  lib:'素材',scenes:'场景',upload:'上传',guideTitle:'更接近 Google Flow 的使用方式',guideSub:'核心不是固定时间线，而是“素材 → Prompt → 生成 → 精修 → 场景组装”。',
+  lib:'素材',imgRail:'图片',vidRail:'视频',scenes:'场景',upload:'上传',railHelp:'帮助',collections:['产品参考','灯光','精选成片','+ 收藏集'],sceneLabels:['已选片段','模型','相机','连续性','操作'],sceneVals:['Hero water reveal','Veo 3.1','缓慢推进 · 50mm','使用上一片段结束帧','延长 · 跳转到 · 编辑'],quick:['移除背景','更换灯光','添加水面'],guideTitle:'更接近 Google Flow 的使用方式',guideSub:'核心不是固定时间线，而是“素材 → Prompt → 生成 → 精修 → 场景组装”。',
   guideIntro:'先在项目里积累图片和视频素材。把素材加入底部 Prompt，告诉模型要生成什么；选中某个结果后再局部编辑或转成视频；只有需要拼多个片段时，才进入 Scenebuilder。',
   g:['组织素材','Prompt 引用素材','生成并精修','需要时再组场景'],
   gp:['主界面首先是资产网格。图片、视频可以搜索、筛选并放进 Collections。','悬停素材点「+ Prompt」，相当于把它作为角色、风格或画面参考加入生成请求。','底部选择 Image / Video 和模型。点生成结果可进入编辑，用 Lasso + 自然语言做局部修改。','左侧 Scenes 进入 Scenebuilder，排列、延长和衔接选中的视频片段。'],
@@ -364,7 +364,7 @@ const T={
  en:{
   help:'? How to use',agent:'✦ Agent',search:'Search assets',eyebrow:'Project workspace',allAssets:'All assets',all:'All',images:'Images',videos:'Videos',recent:'Recent ⌄',
   cAll:'All assets',promptPh:'Describe what you want to create. Use @ to reference an asset…',gen:'Generate',image:'Image',video:'Video',
-  lib:'Library',scenes:'Scenes',upload:'Upload',guideTitle:'A workflow closer to Google Flow',guideSub:'The core loop is Assets → Prompt → Generate → Refine → Compose.',
+  lib:'Library',imgRail:'Images',vidRail:'Videos',scenes:'Scenes',upload:'Upload',railHelp:'Help',collections:['Product refs','Lighting','Hero selects','+ Collection'],sceneLabels:['Selected clip','Model','Camera','Continuity','Actions'],sceneVals:['Hero water reveal','Veo 3.1','Slow push in · 50mm','Use previous end frame','Extend · Jump to · Edit'],quick:['Remove background','Change lighting','Add water'],guideTitle:'A workflow closer to Google Flow',guideSub:'The core loop is Assets → Prompt → Generate → Refine → Compose.',
   guideIntro:'Build up images and videos inside a project. Add references into the bottom prompt, generate a result, refine a selected asset, and only open Scenebuilder when you need to compose multiple clips.',
   g:['Organize assets','Reference in prompt','Generate & refine','Compose when needed'],
   gp:['The main workspace is an asset grid where images and videos can be searched, filtered and grouped.','Hover an asset and choose + Prompt to use it as a subject, style or frame reference.','Choose Image / Video and a model in the bottom composer. Open a result to lasso and edit it with natural language.','Open Scenes only when you want to arrange, extend, or connect selected video clips.'],
@@ -382,8 +382,8 @@ function applyLang(){
  $('#allBtn').textContent=t.all;$('#imagesBtn').textContent=t.images;$('#videosBtn').textContent=t.videos;$('#sortBtn').textContent=t.recent;$('#collectionAll').textContent=t.cAll;
  $('#promptInput').placeholder=t.promptPh;$('#generateBtn').textContent=t.gen;
  const opts=$$('#modeSelect option');opts[0].textContent=t.image;opts[1].textContent=t.video;
- $$('.rail-btn span').forEach((s,i)=>{if(i===0)s.textContent=t.lib;if(i===3)s.textContent=t.scenes;if(i===4)s.textContent=t.upload});
- $('#guideTitle').textContent=t.guideTitle;$('#guideSub').textContent=t.guideSub;$('#guideIntro').textContent=t.guideIntro;
+ const rail=$('.rail-btn span');if(rail[0])rail[0].textContent=t.lib;if(rail[1])rail[1].textContent=t.imgRail;if(rail[2])rail[2].textContent=t.vidRail;if(rail[3])rail[3].textContent=t.scenes;if(rail[4])rail[4].textContent=t.upload;if(rail[5])rail[5].textContent=t.railHelp;
+ const cols=$('.collection-strip .collection');t.collections.forEach((v,i)=>{if(cols[i+1])cols[i+1].textContent=v});const sl=$('.scene-settings .setting-row');t.sceneLabels.forEach((v,i)=>{if(sl[i]){sl[i].querySelector('label').textContent=v;sl[i].querySelector('b').textContent=t.sceneVals[i]}});const qe=$('.quickEdit');t.quick.forEach((v,i)=>{if(qe[i])qe[i].textContent=v});$('#guideTitle').textContent=t.guideTitle;$('#guideSub').textContent=t.guideSub;$('#guideIntro').textContent=t.guideIntro;
  for(let i=1;i<=4;i++){ $('#g'+i+'t').textContent=t.g[i-1];$('#g'+i+'p').textContent=t.gp[i-1]}
  $('#guideTry').textContent=t.try;$('#guideDone').textContent=t.done;$('#sceneEyebrow').textContent=t.sceneEye;$('#sceneTitle').textContent=t.sceneTitle;$('#cameraBtn').textContent=t.camera;
  $('#editHeading').textContent=t.editHeading;$('#editSub').textContent=t.editSub;$('#promptLabel').textContent=t.promptLabel;$('#detailPromptBtn').textContent=t.detailPrompt;$('#editInput').placeholder=t.editPh;$('#editGo').textContent=t.edit;
