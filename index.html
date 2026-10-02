@@ -584,12 +584,12 @@ function openAgentSettings(){$('#agentSettings').classList.add('show');$('#image
 function closeAgentSettings(){$('#agentSettings').classList.remove('show')}
 $('#tuneBtn').onclick=openAgentSettings;
 $('#settingsBack').onclick=closeAgentSettings;$('#settingsClose').onclick=closeAgentSettings;
-$('.confirm-option').forEach(b=>b.onclick=()=>{$('.confirm-option').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')});
-$('.setting-choice').forEach(b=>b.onclick=()=>{$('.setting-choice[data-group="'+b.dataset.group+'"]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')});
+[...document.querySelectorAll('.confirm-option')].forEach(b=>b.onclick=()=>{[...document.querySelectorAll('.confirm-option')].forEach(x=>x.classList.remove('selected'));b.classList.add('selected')});
+[...document.querySelectorAll('.setting-choice')].forEach(b=>b.onclick=()=>{[...document.querySelectorAll('.setting-choice[data-group="'+b.dataset.group+'"]')].forEach(x=>x.classList.remove('selected'));b.classList.add('selected')});
 $('#imageModelBtn').onclick=()=>{$('#imageModelMenu').classList.toggle('show');$('#videoModelMenu').classList.remove('show')};
 $('#videoModelBtn').onclick=()=>{$('#videoModelMenu').classList.toggle('show');$('#imageModelMenu').classList.remove('show')};
-$('.model-item[data-model="image"]').forEach(b=>b.onclick=()=>{$('#imageModelText').textContent=b.textContent;$('#imageModelMenu').classList.remove('show')});
-$('.model-item[data-model="video"]').forEach(b=>b.onclick=()=>{$('#videoModelText').textContent=b.textContent;$('#videoModelMenu').classList.remove('show')});
+[...document.querySelectorAll('.model-item[data-model="image"]')].forEach(b=>b.onclick=()=>{$('#imageModelText').textContent=b.textContent;$('#imageModelMenu').classList.remove('show')});
+[...document.querySelectorAll('.model-item[data-model="video"]')].forEach(b=>b.onclick=()=>{$('#videoModelText').textContent=b.textContent;$('#videoModelMenu').classList.remove('show')});
 $('#settingsSave').onclick=()=>{closeAgentSettings();toast(t().saved)};
 $('#sparkBtn').onclick=()=>{$('#promptEdit').textContent=lang==='zh'?'制作一段高级感的黑色运动鞋广告，暗色摄影棚，蓝色边缘光':'Create a premium black sneaker ad in a dark studio with blue rim lighting';$('#sendBtn').disabled=false};
 $('#searchInput').oninput=renderMedia;
