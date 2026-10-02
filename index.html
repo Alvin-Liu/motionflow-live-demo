@@ -54,7 +54,7 @@ button{cursor:pointer}
   width:132px;height:26px;border:0;background:transparent;outline:none;color:#fff;font-size:16px;line-height:26px;padding:1px 2px;
 }
 .project-title:focus{border-bottom:1px solid #777}
-.header-more{margin-left:0}
+.header-more{margin-left:-8px}
 .search-wrap{
   position:absolute;left:calc(50% - 2px);top:18px;transform:translateX(-50%);width:480px;height:40px;display:flex;align-items:center;gap:8px
 }
@@ -72,8 +72,9 @@ button{cursor:pointer}
 }
 .header-action{width:40px;height:40px;border:0;border-radius:50%;background:transparent;display:grid;place-items:center;color:#e3e3e3;padding:0}
 .header-action:hover{background:var(--surface-soft)}
-.lang-btn{width:auto;padding:0 11px;border-radius:18px;font-size:11px;letter-spacing:.01em}
-.avatar{width:40px;height:40px;margin-left:4px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#3949ab,#8e24aa);font-size:12px;font-weight:700;border:4px solid #202124}
+.lang-btn{display:none}
+.avatar{width:64px;height:56px;margin-left:6px;position:relative;color:transparent;background:transparent;border:0}
+.avatar:after{content:"A";position:absolute;left:12px;top:8px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#3949ab,#8e24aa);color:#fff;font-size:12px;font-weight:700;border:4px solid #202124}
 
 .sidebar{
   position:absolute;z-index:20;left:0;top:var(--header-h);bottom:0;width:var(--left-w);
@@ -134,11 +135,12 @@ button{cursor:pointer}
   position:absolute;left:0;right:0;bottom:0;height:52px;padding:12px 16px;display:flex;align-items:center;
   font-size:13px;font-weight:500;background:linear-gradient(transparent,rgba(0,0,0,.82));text-shadow:0 1px 4px #000
 }
-.media-badge{position:absolute;left:10px;top:10px;height:25px;border-radius:13px;background:rgba(0,0,0,.58);display:flex;align-items:center;gap:4px;padding:0 8px;font-size:10px;color:#eee}
-.card-tools{position:absolute;right:8px;top:8px;display:flex;gap:2px;opacity:0;transition:.15s}
+.media-badge{position:absolute;left:0;top:0;width:46px;height:46px;background:transparent;display:grid;place-items:center;color:#fff;text-shadow:0 1px 5px #000}
+.card-tools{position:absolute;right:8px;top:8px;width:66px;height:36px;padding:4px;display:flex;gap:2px;opacity:0;transition:.15s;background:rgba(255,255,255,.5);border-radius:12px}
 .media-card:hover .card-tools{opacity:1}
-.card-icon{width:34px;height:34px;border:0;border-radius:50%;background:rgba(20,20,22,.82);display:grid;place-items:center;color:#fff}
-.card-icon .material-symbols-rounded{font-size:19px}
+.card-icon{width:28px;height:28px;border:0;border-radius:10px;background:transparent;display:grid;place-items:center;color:#fff;padding:0}
+.card-icon:hover{background:rgba(0,0,0,.14)}
+.card-icon .material-symbols-rounded{font-size:18px}
 .empty-state{
   display:none;position:absolute;inset:var(--header-h) 0 0;align-items:center;justify-content:center;color:#aeb0b4
 }
@@ -172,8 +174,16 @@ button{cursor:pointer}
 .suggestions{display:flex;flex-direction:column;gap:12px}
 .suggestion{
   width:280px;height:80px;margin:0 auto;border:0;border-radius:16px;background:var(--surface-soft);color:#fff;
-  display:flex;align-items:center;padding:8px 16px;gap:12px;text-align:left;font-size:14px
+  display:flex;align-items:center;padding:8px;gap:12px;text-align:left;font-size:14px
 }
+.sug-art{width:64px;height:64px;min-width:64px;border-radius:12px;position:relative;overflow:hidden;background:#2a2b2e}
+.sug-art.a{background:radial-gradient(circle at 42% 38%,#b6d0ff 0 8%,transparent 9%),linear-gradient(145deg,#263850,#17181b)}
+.sug-art.a:after{content:"";position:absolute;left:17px;right:17px;bottom:13px;height:22px;border-radius:12px 12px 5px 5px;background:#7fa8e8}
+.sug-art.b{background:linear-gradient(145deg,#322c45,#17181b)}
+.sug-art.b:before,.sug-art.b:after{content:"";position:absolute;width:19px;height:28px;border-radius:7px;background:#8d79c7;top:18px}.sug-art.b:before{left:11px;transform:rotate(-8deg)}.sug-art.b:after{right:11px;transform:rotate(8deg)}
+.sug-art.c{background:linear-gradient(145deg,#3e3428,#17181b)}
+.sug-art.c:after{content:"";position:absolute;width:38px;height:19px;left:13px;top:25px;border-radius:50% 35%;background:linear-gradient(165deg,#a08a68,#313239);transform:skewX(-8deg)}
+.suggestion-label{font-size:14px;line-height:20px}
 .suggestion:hover{background:var(--surface-hover)}
 .suggestion .material-symbols-rounded{font-size:23px;color:#dfe1e5}
 .chat-log{display:flex;flex-direction:column;gap:12px}
@@ -300,9 +310,9 @@ button{cursor:pointer}
           <div class="agent-empty" id="agentEmpty">
             <div class="agent-greeting"><h3 id="helloLine">alvin，您好！</h3><h4 id="questionLine">您想创作什么内容？</h4></div>
             <div class="suggestions">
-              <button class="suggestion" data-prompt="brainstorm"><span class="material-symbols-rounded">lightbulb</span><span id="sugBrain">与我一起头脑风暴</span></button>
-              <button class="suggestion" data-prompt="storyboard"><span class="material-symbols-rounded">view_carousel</span><span id="sugBoard">制作分镜画面</span></button>
-              <button class="suggestion" data-prompt="edit"><span class="material-symbols-rounded">edit</span><span id="sugEdit">编辑图片</span></button>
+              <button class="suggestion" data-prompt="capabilities"><span class="sug-art a"></span><span class="suggestion-label" id="sugCap">告诉我你能做什么</span></button>
+              <button class="suggestion" data-prompt="brainstorm"><span class="sug-art b"></span><span class="suggestion-label" id="sugBrain">与我一起头脑风暴</span></button>
+              <button class="suggestion" data-prompt="edit"><span class="sug-art c"></span><span class="suggestion-label" id="sugEdit">编辑图片</span></button>
             </div>
           </div>
           <div class="chat-log" id="chatLog" style="display:none"></div>
@@ -371,7 +381,7 @@ const media=[
 const I={
  zh:{
   search:'搜索',allMedia:'所有媒体',characters:'角色',scenes:'场景',tools:'工具',trash:'回收站',collapse:'收起',
-  session:'未命名的会话',hello:'alvin，您好！',question:'您想创作什么内容？',brain:'与我一起头脑风暴',board:'制作分镜画面',edit:'编辑图片',
+  session:'未命名的会话',hello:'alvin，您好！',question:'您想创作什么内容？',cap:'告诉我你能做什么',brain:'与我一起头脑风暴',edit:'编辑图片',
   prompt:'您希望创作什么？',all:'全部',images:'图片',videos:'视频',chars:'角色',newImage:'新建图片',newVideo:'新建视频',newChar:'新建角色',
   hideAgent:'隐藏创作面板',showAgent:'显示创作面板',switchLang:'Switch to English',
   empty:'暂无媒体',emptySub:'从右侧会话开始创作。',trashEmpty:'回收站为空',trashSub:'删除的内容会显示在这里。',
@@ -384,7 +394,7 @@ const I={
  },
  en:{
   search:'Search',allMedia:'All media',characters:'Characters',scenes:'Scenes',tools:'Tools',trash:'Trash',collapse:'Collapse',
-  session:'Untitled session',hello:'Hi Alvin!',question:'What would you like to create?',brain:'Brainstorm with me',board:'Create storyboard frames',edit:'Edit an image',
+  session:'Untitled session',hello:'Hi Alvin!',question:'What would you like to create?',cap:'Tell me what you can do',brain:'Brainstorm with me',edit:'Edit an image',
   prompt:'What would you like to create?',all:'All',images:'Images',videos:'Videos',chars:'Characters',newImage:'New image',newVideo:'New video',newChar:'New character',
   hideAgent:'Hide creation panel',showAgent:'Show creation panel',switchLang:'切换到中文',
   empty:'No media yet',emptySub:'Start creating from the panel on the right.',trashEmpty:'Trash is empty',trashSub:'Deleted media will appear here.',
@@ -422,7 +432,7 @@ function renderMedia(){
  }
  list.forEach(m=>{
    const card=document.createElement('button');card.className='media-card';card.dataset.id=m.id;
-   card.innerHTML='<div class="media-thumb '+m.thumb+'"></div><div class="media-badge"><span class="material-symbols-rounded" style="font-size:15px">'+iconFor(m.type)+'</span>'+typeLabel(m.type)+'</div><div class="card-tools"><button class="card-icon favorite"><span class="material-symbols-rounded">favorite</span></button><button class="card-icon cardmore"><span class="material-symbols-rounded">more_vert</span></button></div><div class="media-name">'+(lang==='zh'?m.titleZh:m.titleEn)+'</div>';
+   card.innerHTML='<div class="media-thumb '+m.thumb+'"></div><div class="media-badge"><span class="material-symbols-rounded" style="font-size:22px">'+iconFor(m.type)+'</span></div><div class="card-tools"><button class="card-icon favorite"><span class="material-symbols-rounded">favorite</span></button><button class="card-icon cardmore"><span class="material-symbols-rounded">more_vert</span></button></div><div class="media-name">'+(lang==='zh'?m.titleZh:m.titleEn)+'</div>';
    card.onclick=e=>{if(e.target.closest('.card-icon'))return;selectMedia(m)};
    card.querySelector('.favorite').onclick=e=>{e.stopPropagation();e.currentTarget.querySelector('.material-symbols-rounded').style.color='#ff6b81'};
    card.querySelector('.cardmore').onclick=e=>{e.stopPropagation();toast(lang==='zh'?'更多操作（Mock）':'More actions (mock)')};
@@ -448,7 +458,7 @@ function applyLang(){
  $('#searchInput').placeholder=q.search;
  const map={allMedia:'allMedia',characters:'characters',scenes:'scenes',tools:'tools',trash:'trash',collapse:'collapse'};
  Object.entries(map).forEach(([key,k])=>{$$('[data-i18n="'+key+'"]').forEach(e=>e.textContent=q[k])});
- $('#sessionTitle').textContent=q.session;$('#helloLine').textContent=q.hello;$('#questionLine').textContent=q.question;$('#sugBrain').textContent=q.brain;$('#sugBoard').textContent=q.board;$('#sugEdit').textContent=q.edit;$('#promptEdit').dataset.placeholder=q.prompt;
+ $('#sessionTitle').textContent=q.session;$('#helloLine').textContent=q.hello;$('#questionLine').textContent=q.question;$('#sugCap').textContent=q.cap;$('#sugBrain').textContent=q.brain;$('#sugEdit').textContent=q.edit;$('#promptEdit').dataset.placeholder=q.prompt;
  $('#fAll').textContent=q.all;$('#fImages').textContent=q.images;$('#fVideos').textContent=q.videos;$('#fChars').textContent=q.chars;
  $('#aImage').textContent=q.newImage;$('#aVideo').textContent=q.newVideo;$('#aChar').textContent=q.newChar;
  $('#toggleAgentText').textContent=$('#app').classList.contains('agent-closed')?q.showAgent:q.hideAgent;$('#toggleLangText').textContent=q.switchLang;$('#langBtn').textContent=lang==='zh'?'中 / EN':'EN / 中';
@@ -474,7 +484,7 @@ $('#newSessionBtn').onclick=()=>{$('#chatLog').innerHTML='';$('#chatLog').style.
 $('#promptEdit').oninput=()=>$('#sendBtn').disabled=!$('#promptEdit').textContent.trim();
 $('#promptEdit').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendPrompt()}};
 $('#sendBtn').onclick=()=>sendPrompt();
-$$('.suggestion').forEach(b=>b.onclick=()=>{const type=b.dataset.prompt;const q=t();$('#agentEmpty').style.display='none';$('#chatLog').style.display='flex';const user=type==='brain'?q.brain:type==='storyboard'?q.board:q.edit;appendMsg('user',user);setTimeout(()=>appendMsg('assistant',type==='storyboard'?q.boardReply:type==='edit'?q.editReply:q.assistant),250)});
+$$('.suggestion').forEach(b=>b.onclick=()=>{const type=b.dataset.prompt;const q=t();$('#agentEmpty').style.display='none';$('#chatLog').style.display='flex';const user=type==='capabilities'?q.cap:type==='brainstorm'?q.brain:q.edit;appendMsg('user',user);setTimeout(()=>appendMsg('assistant',type==='edit'?q.editReply:q.assistant),250)});
 $('#attachBtn').onclick=()=>toast(t().attached);$('#tuneBtn').onclick=()=>toast(t().settings);$('#sparkBtn').onclick=()=>{$('#promptEdit').textContent=lang==='zh'?'制作一段高级感的黑色运动鞋广告，暗色摄影棚，蓝色边缘光':'Create a premium black sneaker ad in a dark studio with blue rim lighting';$('#sendBtn').disabled=false};
 $('#searchInput').oninput=renderMedia;
 $('#filterBtn').onclick=e=>{closePops();const p=$('#filterPop');p.classList.add('show');placePop(p,e.currentTarget)};
