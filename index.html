@@ -206,6 +206,44 @@ button{cursor:pointer}
 .send-btn .material-symbols-rounded{font-size:20px;font-weight:500}
 .send-btn:disabled{background:#3c4043;color:#777}
 
+.agent-settings{position:absolute;inset:0;z-index:20;display:none;background:rgba(22,23,24,.98);border-radius:16px;color:#e3e3e3}
+.agent-settings.show{display:block}
+.settings-back,.settings-close{position:absolute;top:7px;width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:#e3e3e3;display:grid;place-items:center;padding:0}
+.settings-back:hover,.settings-close:hover{background:rgba(218,220,224,.10)}
+.settings-back{left:8px}.settings-close{right:8px}
+.settings-back .material-symbols-rounded,.settings-close .material-symbols-rounded{font-size:21px}
+.settings-title{position:absolute;left:49px;top:4px;height:24px;margin:0;font-size:16px;line-height:24px;font-weight:500;color:#fff}
+.settings-section-label{position:absolute;left:7px;width:328px;height:16px;padding:0 8px;color:rgba(218,220,224,.75);font-size:12px;line-height:16px;font-weight:500}
+.confirm-label{top:40.5px}
+.image-label{top:174.5px}
+.video-label{top:357.7px}
+.confirm-option{position:absolute;left:7px;width:328px;height:46px;border:0;background:transparent;color:#fff;text-align:left;padding:0 8px 0 48px}
+.confirm-option.always{top:58px}.confirm-option.never{top:104px}
+.confirm-option:before{content:"";position:absolute;left:12px;top:13px;width:18px;height:18px;border:2px solid #9aa0a6;border-radius:50%}
+.confirm-option.selected:before{border-color:#a8c7fa}
+.confirm-option.selected:after{content:"";position:absolute;left:17px;top:18px;width:12px;height:12px;border-radius:50%;background:#a8c7fa}
+.confirm-option b{display:block;font-size:12px;line-height:16px;font-weight:500;color:rgba(218,220,224,.9)}
+.confirm-option small{display:block;margin-top:2px;font-size:10px;line-height:14px;font-weight:400;color:rgba(218,220,224,.55);white-space:nowrap}
+.setting-grid{position:absolute;left:7px;width:328px;display:grid}
+.setting-grid.ratios-image{top:206px;height:42px;grid-template-columns:repeat(5,1fr);gap:1px}
+.setting-grid.counts-image{top:262px;height:34px;grid-template-columns:repeat(4,1fr);gap:1px}
+.setting-grid.ratios-video{top:389px;height:42px;grid-template-columns:repeat(2,1fr);gap:1px}
+.setting-grid.counts-video{top:445px;height:34px;grid-template-columns:repeat(4,1fr);gap:1px}
+.setting-choice{border:0;background:transparent;color:#fff;font-size:12px;line-height:16px;font-weight:500;position:relative;padding:0;display:flex;align-items:center;justify-content:center;gap:4px}
+.setting-choice:hover{background:rgba(218,220,224,.06);border-radius:8px}
+.setting-choice.selected:after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:2px;border-radius:2px;background:#a8c7fa}
+.setting-choice .material-symbols-rounded{font-size:18px}
+.model-choice{position:absolute;left:7px;width:328px;height:34px;border:0;border-radius:12px;background:rgba(218,220,224,.05);color:#fff;padding:0 12px;display:flex;align-items:center;font-size:12px;font-weight:500;text-align:left}
+.model-choice.image-model{top:300px}.model-choice.video-model{top:483px}
+.model-choice .material-symbols-rounded{margin-left:auto;font-size:18px}
+.settings-save{position:absolute;left:7px;bottom:15px;width:328px;height:40px;border:0;border-radius:20px;background:#e8eaed;color:#000;font-size:14px;line-height:20px;font-weight:500}
+.settings-save:hover{background:#fff}
+.model-menu{position:absolute;left:7px;width:328px;z-index:30;display:none;border-radius:12px;background:#292a2d;border:1px solid rgba(255,255,255,.08);padding:5px;box-shadow:0 12px 30px rgba(0,0,0,.55)}
+.model-menu.show{display:block}
+.model-menu.image-menu{top:337px}.model-menu.video-menu{top:520px}
+.model-item{height:36px;width:100%;border:0;background:transparent;border-radius:8px;color:#fff;text-align:left;padding:0 9px;font-size:12px}
+.model-item:hover{background:rgba(255,255,255,.08)}
+
 .popover{
   position:fixed;z-index:80;display:none;min-width:220px;border-radius:12px;background:#202124;border:1px solid rgba(255,255,255,.08);box-shadow:0 16px 40px rgba(0,0,0,.5);padding:6px
 }
@@ -330,6 +368,56 @@ button{cursor:pointer}
             </div>
           </div>
         </div>
+
+        <div class="agent-settings" id="agentSettings">
+          <button class="settings-back" id="settingsBack"><span class="material-symbols-rounded">arrow_back</span></button>
+          <h2 class="settings-title" id="agentSettingsTitle">智能体设置</h2>
+          <button class="settings-close" id="settingsClose"><span class="material-symbols-rounded">close</span></button>
+
+          <span class="settings-section-label confirm-label" id="confirmLabel">生成前先确认</span>
+          <button class="confirm-option always selected" data-confirm="always"><b id="alwaysLabel">始终</b><small id="alwaysDesc">智能体将在生成媒体内容之前征求确认。</small></button>
+          <button class="confirm-option never" data-confirm="never"><b id="neverLabel">永不</b><small id="neverDesc">智能体将自动生成媒体内容并消耗点数。</small></button>
+
+          <span class="settings-section-label image-label" id="imageDefaultsLabel">图片生成默认设置</span>
+          <div class="setting-grid ratios-image">
+            <button class="setting-choice selected" data-group="imageRatio" data-value="16:9"><span class="material-symbols-rounded">crop_16_9</span><span>16:9</span></button>
+            <button class="setting-choice" data-group="imageRatio" data-value="4:3"><span class="material-symbols-rounded">crop_landscape</span><span>4:3</span></button>
+            <button class="setting-choice" data-group="imageRatio" data-value="1:1"><span class="material-symbols-rounded">crop_square</span><span>1:1</span></button>
+            <button class="setting-choice" data-group="imageRatio" data-value="3:4"><span class="material-symbols-rounded">crop_portrait</span><span>3:4</span></button>
+            <button class="setting-choice" data-group="imageRatio" data-value="9:16"><span class="material-symbols-rounded">crop_9_16</span><span>9:16</span></button>
+          </div>
+          <div class="setting-grid counts-image">
+            <button class="setting-choice selected" data-group="imageCount" data-value="1">x1</button>
+            <button class="setting-choice" data-group="imageCount" data-value="2">x2</button>
+            <button class="setting-choice" data-group="imageCount" data-value="3">x3</button>
+            <button class="setting-choice" data-group="imageCount" data-value="4">x4</button>
+          </div>
+          <button class="model-choice image-model" id="imageModelBtn"><span id="imageModelText">🍌 Nano Banana 2</span><span class="material-symbols-rounded">arrow_drop_down</span></button>
+          <div class="model-menu image-menu" id="imageModelMenu">
+            <button class="model-item" data-model="image">🍌 Nano Banana 2</button>
+            <button class="model-item" data-model="image">🍌 Nano Banana Pro</button>
+          </div>
+
+          <span class="settings-section-label video-label" id="videoDefaultsLabel">视频生成默认设置</span>
+          <div class="setting-grid ratios-video">
+            <button class="setting-choice selected" data-group="videoRatio" data-value="16:9"><span class="material-symbols-rounded">crop_16_9</span><span>16:9</span></button>
+            <button class="setting-choice" data-group="videoRatio" data-value="9:16"><span class="material-symbols-rounded">crop_9_16</span><span>9:16</span></button>
+          </div>
+          <div class="setting-grid counts-video">
+            <button class="setting-choice selected" data-group="videoCount" data-value="1">x1</button>
+            <button class="setting-choice" data-group="videoCount" data-value="2">x2</button>
+            <button class="setting-choice" data-group="videoCount" data-value="3">x3</button>
+            <button class="setting-choice" data-group="videoCount" data-value="4">x4</button>
+          </div>
+          <button class="model-choice video-model" id="videoModelBtn"><span id="videoModelText">Veo 3.1 - Lite</span><span class="material-symbols-rounded">arrow_drop_down</span></button>
+          <div class="model-menu video-menu" id="videoModelMenu">
+            <button class="model-item" data-model="video">Veo 3.1 - Lite</button>
+            <button class="model-item" data-model="video">Veo 3.1 - Fast</button>
+            <button class="model-item" data-model="video">Veo 3.1</button>
+          </div>
+
+          <button class="settings-save" id="settingsSave">保存</button>
+        </div>
       </section>
     </div>
   </aside>
@@ -388,7 +476,8 @@ const I={
   empty:'暂无媒体',emptySub:'从右侧会话开始创作。',trashEmpty:'回收站为空',trashSub:'删除的内容会显示在这里。',
   helpTitle:'怎么用 Flow 风格工作区？',helpCopy:'左侧管理媒体类型，中间查看项目素材，右侧会话面板负责头脑风暴、生成和编辑。生成结果会回到中间媒体网格。',
   h:['在右侧输入你想创作的内容。','使用 + 添加参考素材，或选择快捷任务。','生成的图片、视频、角色会进入中间媒体区。','左侧“场景”用于查看和组合视频片段。'],
-  thinking:'正在构思…',created:'已生成一个新素材（Mock）',attached:'已添加参考素材（Mock）',settings:'生成设置（Mock）',home:'这是项目内部 Demo，首页未实现。',
+  agentSettings:'智能体设置',confirmBefore:'生成前先确认',always:'始终',alwaysDesc:'智能体将在生成媒体内容之前征求确认。',never:'永不',neverDesc:'智能体将自动生成媒体内容并消耗点数。',imageDefaults:'图片生成默认设置',videoDefaults:'视频生成默认设置',save:'保存',saved:'默认生成设置已保存（Mock）',
+  thinking:'正在构思…',created:'已生成一个新素材（Mock）',attached:'已添加参考素材（Mock）',settings:'生成设置',home:'这是项目内部 Demo，首页未实现。',
   assistant:'可以。我们先确定画面主体、环境、镜头语言和节奏。你也可以直接让我生成一张关键帧或一段视频。',
   boardReply:'我会把创意拆成 3 个画面：① 产品揭幕；② 环绕细节；③ 英雄收尾。先生成关键帧确认方向，再转成视频。',
   editReply:'选择中间任意图片后，可以继续用自然语言说明要修改的区域、灯光或背景。'
@@ -401,7 +490,8 @@ const I={
   empty:'No media yet',emptySub:'Start creating from the panel on the right.',trashEmpty:'Trash is empty',trashSub:'Deleted media will appear here.',
   helpTitle:'How does this Flow-style workspace work?',helpCopy:'Use the left navigation to manage media types, the center to browse project assets, and the right creation panel to brainstorm, generate and edit. Results return to the media grid.',
   h:['Describe what you want to create in the right panel.','Use + to add references, or choose a quick task.','Generated images, videos and characters appear in the center.','Use Scenes on the left to browse and compose video clips.'],
-  thinking:'Thinking…',created:'New mock asset generated',attached:'Reference attached (mock)',settings:'Generation settings (mock)',home:'This demo focuses on the project workspace.',
+  agentSettings:'Agent settings',confirmBefore:'Confirm before generating',always:'Always',alwaysDesc:'The agent will ask before generating media.',never:'Never',neverDesc:'The agent will automatically generate media and spend credits.',imageDefaults:'Image generation defaults',videoDefaults:'Video generation defaults',save:'Save',saved:'Default generation settings saved (mock)',
+  thinking:'Thinking…',created:'New mock asset generated',attached:'Reference attached (mock)',settings:'Generation settings',home:'This demo focuses on the project workspace.',
   assistant:'Sure. Let’s define the subject, environment, camera language and pacing. You can also ask me to generate a keyframe or a video directly.',
   boardReply:'I’d break the idea into three frames: ① product reveal, ② orbit details, ③ hero payoff. Generate keyframes first, then animate the approved direction.',
   editReply:'Select any image in the center, then describe the area, lighting or background you want to change.'
@@ -463,6 +553,7 @@ function applyLang(){
  $('#fAll').textContent=q.all;$('#fImages').textContent=q.images;$('#fVideos').textContent=q.videos;$('#fChars').textContent=q.chars;
  $('#aImage').textContent=q.newImage;$('#aVideo').textContent=q.newVideo;$('#aChar').textContent=q.newChar;
  $('#toggleAgentText').textContent=$('#app').classList.contains('agent-closed')?q.showAgent:q.hideAgent;$('#toggleLangText').textContent=q.switchLang;$('#langBtn').textContent=lang==='zh'?'中 / EN':'EN / 中';
+ $('#agentSettingsTitle').textContent=q.agentSettings;$('#confirmLabel').textContent=q.confirmBefore;$('#alwaysLabel').textContent=q.always;$('#alwaysDesc').textContent=q.alwaysDesc;$('#neverLabel').textContent=q.never;$('#neverDesc').textContent=q.neverDesc;$('#imageDefaultsLabel').textContent=q.imageDefaults;$('#videoDefaultsLabel').textContent=q.videoDefaults;$('#settingsSave').textContent=q.save;
  $('#helpTitle').textContent=q.helpTitle;$('#helpCopy').textContent=q.helpCopy;for(let i=1;i<=4;i++)$('#help'+i).textContent=q.h[i-1];
  renderMedia()
 }
@@ -486,7 +577,19 @@ $('#promptEdit').oninput=()=>$('#sendBtn').disabled=!$('#promptEdit').textConten
 $('#promptEdit').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendPrompt()}};
 $('#sendBtn').onclick=()=>sendPrompt();
 $$('.suggestion').forEach(b=>b.onclick=()=>{const type=b.dataset.prompt;const q=t();$('#agentEmpty').style.display='none';$('#chatLog').style.display='flex';const user=type==='capabilities'?q.cap:type==='brainstorm'?q.brain:q.edit;appendMsg('user',user);setTimeout(()=>appendMsg('assistant',type==='edit'?q.editReply:q.assistant),250)});
-$('#attachBtn').onclick=()=>toast(t().attached);$('#tuneBtn').onclick=()=>toast(t().settings);$('#sparkBtn').onclick=()=>{$('#promptEdit').textContent=lang==='zh'?'制作一段高级感的黑色运动鞋广告，暗色摄影棚，蓝色边缘光':'Create a premium black sneaker ad in a dark studio with blue rim lighting';$('#sendBtn').disabled=false};
+$('#attachBtn').onclick=()=>toast(t().attached);
+function openAgentSettings(){$('#agentSettings').classList.add('show');$('#imageModelMenu').classList.remove('show');$('#videoModelMenu').classList.remove('show')}
+function closeAgentSettings(){$('#agentSettings').classList.remove('show')}
+$('#tuneBtn').onclick=openAgentSettings;
+$('#settingsBack').onclick=closeAgentSettings;$('#settingsClose').onclick=closeAgentSettings;
+$('.confirm-option').forEach(b=>b.onclick=()=>{$('.confirm-option').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')});
+$('.setting-choice').forEach(b=>b.onclick=()=>{$('.setting-choice[data-group="'+b.dataset.group+'"]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')});
+$('#imageModelBtn').onclick=()=>{$('#imageModelMenu').classList.toggle('show');$('#videoModelMenu').classList.remove('show')};
+$('#videoModelBtn').onclick=()=>{$('#videoModelMenu').classList.toggle('show');$('#imageModelMenu').classList.remove('show')};
+$('.model-item[data-model="image"]').forEach(b=>b.onclick=()=>{$('#imageModelText').textContent=b.textContent;$('#imageModelMenu').classList.remove('show')});
+$('.model-item[data-model="video"]').forEach(b=>b.onclick=()=>{$('#videoModelText').textContent=b.textContent;$('#videoModelMenu').classList.remove('show')});
+$('#settingsSave').onclick=()=>{closeAgentSettings();toast(t().saved)};
+$('#sparkBtn').onclick=()=>{$('#promptEdit').textContent=lang==='zh'?'制作一段高级感的黑色运动鞋广告，暗色摄影棚，蓝色边缘光':'Create a premium black sneaker ad in a dark studio with blue rim lighting';$('#sendBtn').disabled=false};
 $('#searchInput').oninput=renderMedia;
 $('#filterBtn').onclick=e=>{closePops();const p=$('#filterPop');p.classList.add('show');placePop(p,e.currentTarget)};
 $$('#filterPop .pop-item').forEach(b=>b.onclick=()=>{currentFilter=b.dataset.filter;closePops();renderMedia()});
