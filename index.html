@@ -56,7 +56,7 @@ button{cursor:pointer}
 .project-title:focus{border-bottom:1px solid #777}
 .header-more{margin-left:0}
 .search-wrap{
-  position:absolute;left:50%;top:18px;transform:translateX(-50%);width:480px;height:40px;display:flex;align-items:center;gap:8px
+  position:absolute;left:calc(50% - 2px);top:18px;transform:translateX(-50%);width:480px;height:40px;display:flex;align-items:center;gap:8px
 }
 .search-box{
   width:430px;height:40px;border:1px solid rgba(218,220,224,.05);border-radius:16px;background:var(--surface-soft);
@@ -97,7 +97,7 @@ button{cursor:pointer}
 .nav-collapsed .nav-sep{width:40px;margin-left:4px}
 
 .center{
-  position:absolute;left:var(--left-w);right:var(--right-w);top:0;bottom:0;overflow:hidden;transition:left .18s ease,right .18s ease
+  position:absolute;left:var(--left-w);right:calc(var(--right-w) + 8px);top:0;bottom:0;overflow:hidden;transition:left .18s ease,right .18s ease
 }
 .center-scroll{position:absolute;inset:0;padding-top:var(--header-h);overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
 .center-scroll::-webkit-scrollbar{display:none}
@@ -165,7 +165,7 @@ button{cursor:pointer}
   position:absolute;left:0;right:0;top:48px;bottom:114px;overflow:auto;padding:16px;scrollbar-width:none
 }
 .agent-content::-webkit-scrollbar{display:none}
-.agent-empty{min-height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:16px}
+.agent-empty{min-height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:32px}
 .agent-greeting{padding:0 8px;margin-bottom:22px}
 .agent-greeting h3{font-size:18px;line-height:1.25;margin:0 0 6px;font-weight:400;color:#fff}
 .agent-greeting h4{font-size:18px;line-height:1.25;margin:0;font-weight:400;color:#fff}
