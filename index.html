@@ -60,10 +60,12 @@ button{cursor:pointer}
 }
 .search-box{
   width:430px;height:40px;border:1px solid rgba(218,220,224,.05);border-radius:16px;background:var(--surface-soft);
-  display:flex;align-items:center;padding:0 3px 0 11px
+  display:flex;align-items:center;padding:0 3px
 }
-.search-box .material-symbols-rounded{font-size:21px;color:#e3e3e3}
-.search-input{flex:1;min-width:0;height:26px;border:0;background:transparent;outline:none;padding:1px 8px;color:#fff;font-size:16px;font-weight:500;line-height:24px}
+.search-icon-btn{width:34px;height:34px;min-width:34px;margin-left:1px;border:0;border-radius:12px;background:transparent;color:#fff;display:grid;place-items:center;padding:8px}
+.search-icon-btn:hover{background:rgba(218,220,224,.10)}
+.search-icon-btn .material-symbols-rounded{font-size:18px;color:#fff}
+.search-input{width:382px;height:26px;margin-left:6px;border:0;background:transparent;outline:none;padding:1px 2px;color:#fff;font-size:16px;font-weight:500;line-height:24px}
 .search-input::placeholder{color:#a7a7aa}
 .filter-btn{width:42px;height:40px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;color:#e3e3e3}
 .filter-btn:hover{background:var(--surface-soft)}
@@ -301,7 +303,7 @@ button{cursor:pointer}
       <button class="icon-btn header-more" id="projectMenuBtn"><span class="material-symbols-rounded">more_vert</span></button>
     </div>
     <div class="search-wrap">
-      <div class="search-box"><span class="material-symbols-rounded">search</span><input class="search-input" id="searchInput" placeholder="搜索"></div>
+      <div class="search-box"><button class="search-icon-btn" id="searchIconBtn"><span class="material-symbols-rounded">search</span></button><input class="search-input" id="searchInput" placeholder="搜索"></div>
       <button class="filter-btn" id="filterBtn"><span class="material-symbols-rounded">filter_list</span></button>
     </div>
     <div class="header-right">
@@ -592,7 +594,7 @@ $('#videoModelBtn').onclick=()=>{$('#videoModelMenu').classList.toggle('show');$
 [...document.querySelectorAll('.model-item[data-model="video"]')].forEach(b=>b.onclick=()=>{$('#videoModelText').textContent=b.textContent;$('#videoModelMenu').classList.remove('show')});
 $('#settingsSave').onclick=()=>{closeAgentSettings();toast(t().saved)};
 $('#sparkBtn').onclick=()=>{$('#promptEdit').textContent=lang==='zh'?'制作一段高级感的黑色运动鞋广告，暗色摄影棚，蓝色边缘光':'Create a premium black sneaker ad in a dark studio with blue rim lighting';$('#sendBtn').disabled=false};
-$('#searchInput').oninput=renderMedia;
+$('#searchInput').oninput=renderMedia;$('#searchIconBtn').onclick=()=>$('#searchInput').focus();
 $('#filterBtn').onclick=e=>{closePops();const p=$('#filterPop');p.classList.add('show');placePop(p,e.currentTarget)};
 $$('#filterPop .pop-item').forEach(b=>b.onclick=()=>{currentFilter=b.dataset.filter;closePops();renderMedia()});
 $('#addBtn').onclick=e=>{closePops();const p=$('#addPop');p.classList.add('show');placePop(p,e.currentTarget)};
